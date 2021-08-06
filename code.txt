@@ -1,0 +1,57 @@
+1] open player.cpp
+2] go to line 1758 (CBasePlayer::SetAnimation)
+
+code:
+	else if (playerAnim == PLAYER_IDLE)
+	{
+		if ( !( GetFlags() & FL_ONGROUND ) && (m_Activity == ACT_HOP || m_Activity == ACT_LEAP) )	// Still jumping
+		{
+			idealActivity = m_Activity;
+		}
+		else if ( GetWaterLevel() > 1 )
+		{
+			if ( speed == 0 )
+				idealActivity = ACT_HOVER;
+			else
+				idealActivity = ACT_SWIM;
+		}
+		else if (GetFlags() & FL_DUCKING)
+		{
+			idealActivity = ACT_CROUCHIDLE;
+		}
+		else
+		{
+			idealActivity = ACT_IDLE;
+		}
+	}
+	else if (playerAnim == PLAYER_WALK)
+	{			
+			  //Calculating speed of player for framerate
+			 float calcframerate = (GetPlayerMaxSpeed() / 8 / 8 / 8 / 8);
+
+			 //ACT_WALK is a idle animation 
+			 idealActivity = ACT_RUN;
+			 
+			 //Changed framerate to make it looks like walk animation + changing framerate when player is moving faster
+			 m_flPlaybackRate = 0.78 + calcframerate;
+
+		 if (GetWaterLevel() == 2)
+		 {
+			m_flPlaybackRate = 1;
+			idealActivity = ACT_HOVER;
+		 }
+		 else if (GetWaterLevel() == 3)
+		 {
+			 m_flPlaybackRate = 1;
+			 idealActivity = ACT_HOVER;
+		 }	
+		 else
+		 {
+			 if (GetFlags() & FL_DUCKING)
+			 {
+				 m_flPlaybackRate = 1.9;
+				 idealActivity = ACT_CROUCH;
+
+			 }
+		 }
+	}
