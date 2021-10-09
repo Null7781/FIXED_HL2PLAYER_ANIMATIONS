@@ -1,5 +1,6 @@
 1] open player.cpp
-2] go to line 1758 (CBasePlayer::SetAnimation)
+
+2] go to line 1758 and find (CBasePlayer::SetAnimation)
 
 code:
 	else if (playerAnim == PLAYER_IDLE)
